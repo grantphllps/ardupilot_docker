@@ -51,6 +51,7 @@ COPY ./modified_files/gazebo-drone* /ardupilot/Tools/autotest/default_params/
 
 # TCP 5760 is what the sim exposes by default
 EXPOSE 5760/tcp
+EXPOSE 5763/tcp
 
 # Finally the command
 #ENTRYPOINT /ardupilot/Tools/autotest/sim_vehicle.py --vehicle ${VEHICLE} -I${INSTANCE} --custom-location=${LAT},${LON},${ALT},${DIR} -w --frame ${MODEL} --no-rebuild --no-mavproxy --speedup ${SPEEDUP}
