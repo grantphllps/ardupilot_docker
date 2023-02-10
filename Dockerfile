@@ -52,6 +52,9 @@ RUN rm /home/ardupilot/Tools/autotest/pysim/vehicleinfo.py
 COPY ./modified_files/vehicleinfo.py /home/ardupilot/Tools/autotest/pysim/
 COPY ./modified_files/gazebo-drone* /home/ardupilot/Tools/autotest/default_params/
 
+RUN ./waf configure --board sitl
+RUN ./waf copter
+
 # TCP 5760 is what the sim exposes by default
 EXPOSE 5760/tcp
 EXPOSE 5763/tcp
