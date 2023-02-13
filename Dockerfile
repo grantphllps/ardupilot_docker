@@ -49,17 +49,23 @@ RUN . /home/.bashrc
 #Now for some ArduCopter file tuning :)
 #First is the modified vehicle info file
 RUN rm /home/ardupilot/Tools/autotest/pysim/vehicleinfo.py
+RUN rm /home/ardupilot/Tools/autotest/sim_vehicle.py
+
 COPY ./modified_files/vehicleinfo.py /home/ardupilot/Tools/autotest/pysim/
 COPY ./modified_files/gazebo-drone* /home/ardupilot/Tools/autotest/default_params/
+COPY ./modified_files/sim_vehicle.py /home/ardupilot/Tools/autotest/
 
 RUN ./waf configure --board sitl
 RUN ./waf copter
 
 # TCP 5760 is what the sim exposes by default
-EXPOSE 5760/tcp
-EXPOSE 5763/tcp
+EXPOSE 5760
+EXPOSE 5763
+EXPOSE 14550/udp
 
 WORKDIR /home
 
+RUN chmod +x /home/ardupilot/Tools/autotest/sim_vehicle.py
+
 # Finally the command
-#ENTRYPOINT /ardupilot/Tools/autotest/sim_vehicle.py --vehicle ${VEHICLE} -I${INSTANCE} --custom-location=${LAT},${LON},${ALT},${DIR} -w --frame ${MODEL} --no-rebuild --no-mavproxy --speedup ${SPEEDUP}
+#ENTRYPOINT /ardupilot/Tools/autotest/sim_vehicle.py --vehicle ${VEHICLE} -I${INSTANCE} --custom-location=${LAT},${LON},${ALT},${DIR} -w --frame ${MODEL} --no-rebuild --no-mavproxy --speedup ${SPEEDUP}asdf
